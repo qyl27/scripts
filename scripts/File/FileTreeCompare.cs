@@ -5,12 +5,24 @@ using System.Security.Cryptography;
 if (args.Length != 2)
 {
     Console.WriteLine("Compare all files in 2 directories.");
-    Console.WriteLine("Usage: dotnet DirectoryCompare.cs <Path A> <Path B>");
+    Console.WriteLine("Usage: dotnet FileTreeCompare.cs <Path A> <Path B>");
     return;
 }
 
 var dirA = args[0];
 var dirB = args[1];
+
+if (!Directory.Exists(dirA))
+{
+    Console.WriteLine($"Directory A {dirA} does not exist.");
+    return;
+}
+
+if (!Directory.Exists(dirB))
+{
+    Console.WriteLine($"Directory B {dirB} does not exist.");
+    return;
+}
 
 var hashA = GetFileHashes(dirA);
 var hashB = GetFileHashes(dirB);
