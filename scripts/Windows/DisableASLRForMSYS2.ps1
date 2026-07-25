@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory=$true)][String]$msysRoot
+    [Parameter(Mandatory=$true)][String]$MsysRoot
 )
 
 $PSNativeCommandUseErrorActionPreference = $true
@@ -11,10 +11,9 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
     return
 }
 
-Write-Host "Considering MSYS2 Root: ${msysRoot}"
-$files = (Get-ChildItem "${msysRoot}\usr\bin\*.exe").FullName
+Write-Host "Considering MSYS2 Root: ${MsysRoot}"
+$files = (Get-ChildItem "${MsysRoot}\usr\bin\*.exe").Name
 Write-Host "Total $($files.Count) executables will be affected."
 pause
 
-$files.ForEach({Set-ProcessMitigation -Verbose $_ -Disable ForceRelocateImages})
-$files.ForEach({Set-ProcessMitigation -Verbose $_ -Disable BottomUp})
+$files.ForEach({Set-ProcessMitigation -Verbose -Name $_ -Disable ForceRelocateImages,BottomUp})
